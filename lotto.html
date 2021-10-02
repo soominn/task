@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로또 번호 예측 프로그램</title>
+</head>
+<body>
+    <h2>로또 번호 예측 프로그램</h2>
+    <script>
+        'use strict';
+        let lotto = [];
+        
+        for(let i = 0; i < 6; i++)
+        {
+            lotto.push(Math.floor(Math.random() * 45) + 1);
+            for(let j = 0; j < i; j++)
+            {
+                if(lotto[i] === lotto[j])
+                {
+                    lotto.pop();
+                    i--;
+                }
+            }
+        }
+
+        lotto.sort(function(a, b)
+        {
+            return a - b;
+        });
+
+        console.log("오늘의 예측 로또 번호");
+        console.log(`${lotto[0]} ${lotto[1]} ${lotto[2]} ${lotto[3]} ${lotto[4]} ${lotto[5]}`);
+    </script>
+</body>
+</html>
