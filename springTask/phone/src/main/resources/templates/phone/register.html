@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>제품 등록</title>
+</head>
+<body>
+    <div class="container">
+        <div>휴대폰 이름 : <input type="text" class="phoneName"></div>
+        <div>휴대폰 가격 : <input type="text" class="phonePrice"></div>
+        <div>휴대폰 브랜드 : <input type="text" class="phoneBrand"></div>
+        <button type="button" class="register">등록</button>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(".register").click(function() {
+        const $phoneName = $("input.phoneName").val();
+        const $phonePrice = $("input.phonePrice").val();
+        const $phoneBrand = $("input.phoneBrand").val();
+
+        let jsonPhone = {
+            phoneName : $phoneName,
+            phonePrice : $phonePrice,
+            phoneBrand : $phoneBrand
+        };
+
+        $.ajax({
+            url: "/phone/register",
+            type: "POST",
+            data: JSON.stringify(jsonPhone),
+            contentType: "application/json; charset=UTF-8",
+            dataType: "text",
+            success: function(result) {
+                $("div.container").text(result);
+            }
+        });
+    });
+</script>
+</html>

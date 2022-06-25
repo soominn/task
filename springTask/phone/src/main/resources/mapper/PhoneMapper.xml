@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.board.mapper.PhoneMapper">
+    <insert id="insert">
+        INSERT INTO TBL_PHONE(PHONE_NUMBER, PHONE_NAME, PHONE_PRICE, PHONE_BRAND)
+        VALUES(SEQ_PHONE.NEXTVAL, #{phoneName}, #{phonePrice}, #{phoneBrand})
+    </insert>
+
+    <select id="select" resultType="phoneVO">
+        SELECT PHONE_NUMBER, PHONE_NAME, PHONE_PRICE, PHONE_BRAND FROM TBL_PHONE
+        WHERE PHONE_NUMBER = #{phoneNumber}
+    </select>
+
+    <select id="getList" resultType="phoneVO">
+    <![CDATA[
+        SELECT PHONE_NUMBER, PHONE_NAME, PHONE_PRICE, PHONE_BRAND
+        FROM
+        (
+            SELECT /*+ INDEX_DESC(TBL_PHONE PK_PHONE) */
+            ROWNUM RN, PHONE_NUMBER, PHONE_NAME, PHONE_PRICE, PHONE_BRAND
+            FROM TBL_PHONE
+            WHERE ROWNUM <= #{pageNum} * #{amount}
+        )
+        WHERE RN > (#{pageNum} - 1) * #{amount}
+    ]]>
+    </select>
+
+    <update id="update">
+        UPDATE TBL_PHONE
+        SET PHONE_NAME = #{phoneName}, PHONE_PRICE = #{phonePrice}, PHONE_BRAND = #{phoneBrand}
+        WHERE PHONE_NUMBER = #{phoneNumber}
+    </update>
+</mapper>
